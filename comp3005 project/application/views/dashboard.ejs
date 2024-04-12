@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+
+<head>
+  <link type="text/css" rel="stylesheet" href="../public/css/styles.css"></head>
+<div class="navbar">
+  <a href="home.html">home</a>
+  <a href="login.html">sign in</a>
+  <a href="dashboard">view profile</a>
+</div>
+
+
+<div id="wrapper">
+
+<div id="personalInfo">
+   <p> hello <%= user[0].first_name%> <%= user[0].last_name%>!</p>
+   <p>current height is <%= user[0].height%> feet</p> 
+   <p>current weight is <%= user[0].mass%> pounds</p> 
+   <p>current bmi is <%= ((user[0].mass * 0.4535) / ((user[0].height * 0.3048) **2)).toFixed(2)%></p> 
+   <input placeholder="new weight" type="text" name="updateweight" id="updateweight" />
+   <input type="button" name="updateweightbutton" value="update" id="updateweightbutton" />
+   <p>pay for a session or class</p>
+<select name="sessionorclass" id="sessionorclass">
+  <option value="session">session</option>
+  <option value="class">class</option>
+</select>
+<input placeholder="id" type="text" name="payid" id="payid" />
+<input type="button" name="paybutton" value="pay" id="paybutton" />
+   <p>weight goals</p>
+   <table class="table table-inverse">
+    <thead>
+      <tr>
+        <th>goal weight</th>
+        <th>by</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < goals.length; i++) { %>
+      <tr>
+        <td><%= goals[i].goal_weight%></td>
+        <td><%= goals[i].achieve_by.toLocaleDateString() %></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+<input placeholder="goal" type="text" name="goalweight" id="goalweight" />
+<input placeholder="date YYYY-MM-DD" type="text" name="goaldate" id="goaldate" />
+<input type="button" name="addgoalbutton" value="add" id="addgoalbutton" />
+
+<p>fitness milestones</p>
+<table class="table table-inverse">
+  <thead>
+    <tr>
+      <th>achievement</th>
+      <th>acheived on</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for(var i=0; i < achievements.length; i++) { %>
+    <tr>
+      <td><%= achievements[i].achievement_name%></td>
+      <td><%= achievements[i].achieved_on.toLocaleDateString() %></td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
+<input placeholder="achievement" type="text" name="achievementname" id="achievementname" />
+<input placeholder="date YYYY-MM-DD" type="text" name="achievementdate" id="achievementdate" />
+<input type="button" name="addgoalbutton" value="add" id="addachievementbutton" />
+
+<p>exercise routines</p>
+<table class="table table-inverse">
+  <thead>
+    <tr>
+      <th>routine id</th>
+      <th>routine name</th>
+      <th>number of reps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for(var i=0; i < routines.length; i++) { %>
+    <tr>
+      <td><%= routines[i].exercise_id%></td>
+      <td><%= routines[i].exercise_name%></td>
+      <td><%= routines[i].number_of_times%></td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
+<input placeholder="routine" type="text" name="exercisename" id="exercisename" />
+<input placeholder="number of times" type="text" name="exercisereps" id="exercisereps" />
+<input type="button" name="addexercisebutton" value="add" id="addexercisebutton" />
+<p>remove a routine</p>
+<select name="exercise" id="exercise">
+  <% for(var i=0; i < routines.length; i++) { %>
+    <option> <%= routines[i].exercise_id %></option>
+  <% } %>
+  <input type="button" name="removeexercisebutton" value="remove" id="removeexercisebutton" />
+</div>
+
+
+<div id="sessions">
+  <p>your sessions</p>
+  <table class="table table-inverse">
+    <thead>
+      <tr>
+        <th>session id</th>
+        <th>session topic</th>
+        <th>date</th>
+        <th>trainer</th>
+        <th>start time</th>
+        <th>end time</th>
+        <th>paid for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < sessions.length; i++) { %>
+        <% for (var j = 0; j < trainers.length; j++) {%>
+          <% if (trainers[j].trainer_id === sessions[i].trainer_id) { name = trainers[j].first_name %>
+            <% if (sessions[i].paid_for === 0) { paid = "unpaid"} else {paid = "paid"%>
+            <% } %>
+            
+      <tr>
+        <td><%= sessions[i].session_id %></td>
+        <td><%= sessions[i].session_name %></td>
+        <td><%= sessions[i].session_date.toLocaleDateString() %></td>
+        <td><%= name %></td>
+        <td><%= sessions[i].start_time %></td>
+        <td><%= sessions[i].end_time %></td>
+        <td><%= paid %></td>
+      </tr>
+      <% } %>
+      <% } %>
+      <% } %>
+    </tbody>
+  </table>
+  <p>schedule a new session</p>
+      <input placeholder="topic" type="text" name="sessiontopic" id="sessiontopic" />
+      <input placeholder="date YYYY-MM-DD" type="text" name="sessiondate" id="sessiondate" />
+      <input placeholder="start time" type="text" name="sessionstart" id="sessionstart" />
+      <p>length of session</p>
+      <select name="sessionDurations" id="sessionduration">
+        <option value="1">1 hour</option>
+        <option value="2">2 hours</option>
+        <option value="4">4 hours</option>
+      </select>
+      <p>trainer id</p>
+      <select name="trainers" id="trainers">
+        <% for(var i=0; i < trainers.length; i++) { %>
+          <option> <%= trainers[i].trainer_id %></option>
+        <% } %>
+      </select>
+      <p></p>
+      <input type="button" name="schedulebutton" value="schedule" id="schedulebutton" />
+  <p>available trainers</p>
+  <table class="table table-inverse">
+    <thead>
+      <tr>
+        <th>name</th>
+        <th>id</th>
+        <th>start time</th>
+        <th>end time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < trainers.length; i++) { %>
+            
+      <tr>
+        <td><%= trainers[i].first_name + " " + trainers[i].last_name %></td>
+        <td><%= trainers[i].trainer_id %></td>
+        <td><%= trainers[i].start_time %></td>
+        <td><%= trainers[i].end_time %></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+  <p>drop a session</p>
+  <select name="dropsession" id="dropsession">
+    <% for(var i=0; i < sessions.length; i++) { %>
+      <option> <%= sessions[i].session_id %></option>
+    <% } %>
+  </select>
+    <input type="button" name="dropbutton" value="drop" id="dropbutton" />
+
+    <p>reschedule a session</p>
+    <input placeholder="date YYYY-MM-DD" type="text" name="rescheduledate" id="rescheduledate" />
+    <input placeholder="start time" type="text" name="reschedulestart" id="reschedulestart" />
+    <select name="rescheduledurations" id="rescheduledurations">
+      <option value="1">1 hour</option>
+      <option value="2">2 hours</option>
+      <option value="4">4 hours</option>
+    </select>
+    <select name="reschedulesession" id="reschedulesession">
+      <% for(var i=0; i < sessions.length; i++) { %>
+        <option> <%= sessions[i].session_id %></option>
+      <% } %>
+    </select>
+      <input type="button" name="reschedulebutton" value="reschedule" id="reschedulebutton" />
+
+  </div>
+  <div id="classes">
+    <p>classes offered</p>
+    <table class="table table-inverse">
+      <thead>
+        <tr>
+          <th>class id</th>
+          <th>class topic</th>
+          <th>date</th>
+          <th>trainer</th>
+          <th>start time</th>
+          <th>end time</th>
+          <th>room</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(var i=0; i < classes.length; i++) { %>
+          <% for (var j = 0; j < trainers.length; j++) {%>
+            <% if (trainers[j].trainer_id === classes[i].trainer_id) { name = trainers[j].first_name %>
+              
+        <tr>
+          <td><%= classes[i].class_id %></td>
+          <td><%= classes[i].topic %></td>
+          <td><%= classes[i].class_date.toLocaleDateString() %></td>
+          <td><%= name %></td>
+          <td><%= classes[i].start_time %></td>
+          <td><%= classes[i].end_time %></td>
+          <td><%= classes[i].room_number %></td>
+        </tr>
+        <% } %>
+        <% } %>
+        <% } %>
+      </tbody>
+    </table>
+    <select name="enrollclass" id="enrollclass">
+      <% for(var i=0; i < classes.length; i++) { %>
+        <option> <%= classes[i].class_id %></option>
+      <% } %>
+      <input type="button" name="enrollclassbutton" value="enroll" id="enrollclassbutton" />
+      <p>your classes</p>
+    <table class="table table-inverse">
+      <thead>
+        <tr>
+          <th>classes id</th>
+          <th>classes topic</th>
+          <th>date</th>
+          <th>trainer</th>
+          <th>start time</th>
+          <th>end time</th>
+          <th>room</th>
+          <th>paid for</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(var i=0; i < classes.length; i++) { %>
+          <% for (var j = 0; j < trainers.length; j++) {%>
+            <% if (trainers[j].trainer_id === classes[i].trainer_id) { name = trainers[j].first_name %>
+              <% for (var k=0; k < enrollment.length; k++) { %>
+                <% if (classes[i].class_id === enrollment[k].class_id) { %>
+                  <%if (enrollment[k].user_id === user[0].user_id) { %>
+                  <% if (enrollment[k].paid_for === 0) { paid = "unpaid"} else {paid = "paid"%>
+                  <% } %>
+
+              
+        <tr>
+          <td><%= classes[i].class_id %></td>
+          <td><%= classes[i].topic %></td>
+          <td><%= classes[i].class_date.toLocaleDateString() %></td>
+          <td><%= name %></td>
+          <td><%= classes[i].start_time %></td>
+          <td><%= classes[i].end_time %></td>
+          <td><%= classes[i].room_number %></td>
+          <td> <%= paid %></td>
+        </tr>
+        <% } %>
+        <% } %>
+        <% } %>
+        <% } %>
+        <% } %>
+        <% } %>
+      </tbody>
+    </table>
+    <p>drop a class</p>
+    <select name="userdropclass" id="userdropclass">
+      <% for(var i=0; i < enrollment.length; i++) { %>
+        <% if (enrollment[i].user_id === user[0].user_id) { %>
+        <option> <%= enrollment[i].class_id %></option>
+      <% } %>
+      <% } %>
+      <input type="button" name="userdropclassbutton" value="drop" id="userdropclassbutton" />
+
+
+  </div>
+
+
+  </div>
+
+
+  <script type="text/javascript" src="client.js"></script>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<head>
+  <link type="text/css" rel="stylesheet" href="../public/css/styles.css"></head>
+<div class="navbar">
+  <a href="home.html">home</a>
+  <a href="login.html">sign in</a>
+  <a href="dashboard">view profile</a>
+</div>
+<div id="wrapper">
+<p>
+    TRAINER DASHBOARD
+</p>
+<div id="personalInfo">
+<p>hello <%= trainer[0].first_name%> <%= trainer[0].last_name%>!</p>
+<p id="trainerId">your trainer id is <%= trainer[0].trainer_id %></p>
+<p>your current start time is <%=trainer[0].start_time%> and your end time is <%= trainer[0].end_time %></p>
+<input placeholder="new start" type="text" name="start" id="start" />
+<input placeholder="new end" type="text" name="end" id="end" />
+
+<input type="button" name="set" value="set" id="set" />
+</div>
+<div id="sessions">
+  <input type="text" id="search" onkeyup="myFunction()" placeholder="Search for names..">
+<ul id="users">
+  <% for(var i=0; i < users.length; i++) { %>
+    <li><a href="<%="users/" + users[i].user_id %>"><%= users[i].first_name + " " + users[i].last_name %></a></li>
+    <%}%>
+</div>
+<div id="classes">
+  <p>your sessions</p>
+  <table class="table table-inverse">
+    <thead>
+      <tr>
+        <th>session id</th>
+        <th>session topic</th>
+        <th>date</th>
+        <th>client</th>
+        <th>start time</th>
+        <th>end time</th>
+        <th>paid for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < sessions.length; i++) { %>
+        <% for (var j = 0; j < users.length; j++) {%>
+          <% if (users[j].user_id === sessions[i].user_id) { name = users[j].first_name %>
+            <% if (sessions[i].paid_for === 0) { paid = "unpaid"} else {paid = "paid"%>
+            <% } %>
+            
+      <tr>
+        <td><%= sessions[i].session_id %></td>
+        <td><%= sessions[i].session_name %></td>
+        <td><%= sessions[i].session_date.toLocaleDateString() %></td>
+        <td><%= name %></td>
+        <td><%= sessions[i].start_time %></td>
+        <td><%= sessions[i].end_time %></td>
+        <td><%= paid %></td>
+      </tr>
+      <% } %>
+      <% } %>
+      <% } %>
+    </tbody>
+  </table>
+  <p>your classes</p>
+  <table class="table table-inverse">
+    <thead>
+      <tr>
+        <th>class id</th>
+        <th>class topic</th>
+        <th>date</th>
+        <th>start time</th>
+        <th>end time</th>
+        <th>room</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < classes.length; i++) { %>
+            
+      <tr>
+        <td><%= classes[i].class_id %></td>
+        <td><%= classes[i].topic %></td>
+        <td><%= classes[i].class_date.toLocaleDateString() %></td>
+        <td><%= classes[i].start_time %></td>
+        <td><%= classes[i].end_time %></td>
+        <td><%= classes[i].room_number %></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+</ul>
+</div>
+    <script type="text/javascript" src="client.js"></script>
+    <script>
+      function myFunction() {
+        let input;
+        let filter;
+        let ul;
+        let li;
+        let user;
+        let i;
+        let val;
+
+        input = document.getElementById('search');
+        filter = input.value.toLowerCase();
+        ul = document.getElementById("users");
+        li = ul.getElementsByTagName('li');
+      
+
+        for (i = 0; i < li.length; i++) {
+          user = li[i].getElementsByTagName("a")[0];
+          val = user.textContent;
+          if (val.toLowerCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+          } else {
+            li[i].style.display = "none";
+          }
+        }
+      }
+      </script>
+  </body>
+</html>

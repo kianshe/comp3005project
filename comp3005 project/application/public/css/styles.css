@@ -1,0 +1,14 @@
+#wrapper {
+  overflow: auto;
+}
+#personalInfo {
+  float: left;
+}
+#sessions {
+  margin: 0 0 0 150px;
+  float: left;
+}
+#classes {
+  margin: 0 0 0 150px;
+  float: left;
+}
